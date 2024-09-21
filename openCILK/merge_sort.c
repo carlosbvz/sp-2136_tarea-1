@@ -73,7 +73,7 @@ int main() {
     scanf("%d", &n);
 
     // Ask for the number of workers from the user
-    printf("Ingrese el número de trabajadores (hilos): ");
+    printf("Ingrese el número de hilos: ");
     scanf("%d", &num_workers);
 
     // Set the number of workers through the environment variable
