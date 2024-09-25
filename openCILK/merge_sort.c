@@ -96,16 +96,28 @@ void parallel_mergesort(int* arr, int lo, int hi) {
  * 3. Crea un array de números aleatorios, lo imprime, lo ordena utilizando parallel_mergesort,
  *    y finalmente muestra el array ordenado junto con el tiempo de ejecución.
  */
-int main() {
+#include <stdio.h>
+#include <stdlib.h>
+#include <cilk/cilk.h>
+#include <cilk/cilk_api.h>
+#include <time.h>
+
+int main(int argc, char *argv[]) {
     int n, num_workers;
 
-    // Pedir al usuario el tamaño del array
-    printf("Ingrese el tamaño del array: ");
-    scanf("%d", &n);
+    // Si se proporcionan argumentos por línea de comandos, utilizarlos
+    if (argc == 3) {
+        n = atoi(argv[1]);  // Tamaño del array
+        num_workers = atoi(argv[2]);  // Número de hilos
+    } else {
+        // Pedir el tamaño del array si no se proporcionó como argumento
+        printf("Ingrese el tamaño del array: ");
+        scanf("%d", &n);
 
-    // Pedir al usuario el número de hilos
-    printf("Ingrese el número de hilos: ");
-    scanf("%d", &num_workers);
+        // Pedir el número de hilos si no se proporcionó como argumento
+        printf("Ingrese el número de hilos: ");
+        scanf("%d", &num_workers);
+    }
 
     // Establecer el número de hilos a través de la variable de entorno
     char env_var[50];
