@@ -14,4 +14,4 @@ module load cmake/3.17.2
 make
 
 # Run the compiled program
-./merge_sort 1000 6
+./merge_sort 1000 2

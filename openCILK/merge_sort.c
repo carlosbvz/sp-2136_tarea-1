@@ -96,12 +96,6 @@ void parallel_mergesort(int* arr, int lo, int hi) {
  * 3. Crea un array de números aleatorios, lo imprime, lo ordena utilizando parallel_mergesort,
  *    y finalmente muestra el array ordenado junto con el tiempo de ejecución.
  */
-#include <stdio.h>
-#include <stdlib.h>
-#include <cilk/cilk.h>
-#include <cilk/cilk_api.h>
-#include <time.h>
-
 int main(int argc, char *argv[]) {
     int n, num_workers;
 
@@ -164,3 +158,4 @@ int main(int argc, char *argv[]) {
     free(arr);
     return 0;
 }
+
