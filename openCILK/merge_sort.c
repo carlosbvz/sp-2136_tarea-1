@@ -125,11 +125,11 @@ int main(int argc, char *argv[]) {
     }
 
     // Imprimir el array antes de ordenar
-    printf("Array antes de ser ordenado:\n");
-    for (int i = 0; i < n; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
+    // printf("Array antes de ser ordenado:\n");
+    // for (int i = 0; i < n; i++) {
+    //     printf("%d ", arr[i]);
+    // }
+    // printf("\n");
 
     // Medir el tiempo de inicio usando clock_gettime
     struct timespec start, end;
@@ -145,11 +145,11 @@ int main(int argc, char *argv[]) {
     double time_taken = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
 
     // Imprimir el array después de ordenar
-    printf("Array después de ser ordenado:\n");
-    for (int i = 0; i < n; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
+    // printf("Array después de ser ordenado:\n");
+    // for (int i = 0; i < n; i++) {
+    //     printf("%d ", arr[i]);
+    // }
+    // printf("\n");
 
     // Mostrar el tiempo total de ejecución
     printf("Tiempo total de ejecución: %f segundos\n", time_taken);
