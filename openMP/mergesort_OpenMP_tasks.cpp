@@ -93,10 +93,10 @@ int main(int argc, char *argv[])
     generateRandomArray(arr, N, minValue, maxValue);
 
     // Print the unsorted array
-    std::cout << "Unsorted array: ";
-    for (int i = 0; i < N; i++)
-        std::cout << arr[i] << " ";
-    std::cout << std::endl;
+    //std::cout << "Unsorted array: ";
+    //for (int i = 0; i < N; i++)
+    //    std::cout << arr[i] << " ";
+    //std::cout << std::endl;
 
     // Perform the mergesort
     auto start = std::chrono::high_resolution_clock::now();
@@ -108,10 +108,10 @@ int main(int argc, char *argv[])
     auto end = std::chrono::high_resolution_clock::now();
 
     // Print the sorted array
-    std::cout << "Sorted array: ";
-    for (int i = 0; i < N; i++)
-        std::cout << arr[i] << " ";
-    std::cout << std::endl;
+    //std::cout << "Sorted array: ";
+    //for (int i = 0; i < N; i++)
+    //    std::cout << arr[i] << " ";
+    //std::cout << std::endl;
 
     // Calculate the duration in milliseconds
     auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start);
@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
     // Output the result
     // Output the result with high precision
     std::cout << std::fixed << std::setprecision(9);
-    std::cout << "Execution time: " << duration.count() << " s" << std::endl;
+    std::cout << duration.count() << std::endl;
 
     return 0;
 }

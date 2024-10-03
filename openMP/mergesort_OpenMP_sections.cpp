@@ -125,7 +125,8 @@ int main(int argc, char *argv[])
     // Output the result
     // Output the result with high precision
     std::cout << std::fixed << std::setprecision(9);
-    std::cout << "Execution time: " << duration.count() << " s" << std::endl;
+    //std::cout << "Execution time: " << duration.count() << " s" << std::endl;
+    std::cout << duration.count() << std::endl;
 
     return 0;
 }
