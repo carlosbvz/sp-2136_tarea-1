@@ -1,8 +1,11 @@
 #include <iostream>
 #include <chrono>
 #include <iomanip> // For setting precision
-
+#include <algorithm> // For std::sort
 #include <random>
+
+#define THRESHOLD 1000 //handle small arrays 
+
 
 void generateRandomArray(int *arr, int size, int minValue, int maxValue)
 {
@@ -66,10 +69,17 @@ void mergesort(int *A, int lo, int hi)
 {
     if (lo < hi)
     {
-        int mid = lo + (hi - lo) / 2;
-        mergesort(A, lo, mid);
-        mergesort(A, mid + 1, hi);
-        merge(A, lo, mid, hi);
+        if (hi - lo < THRESHOLD)
+        {
+            std::sort(A + lo, A + hi + 1); // Perform serial sort (std::sort)
+        }
+        else
+        {
+            int mid = lo + (hi - lo) / 2;
+            mergesort(A, lo, mid);
+            mergesort(A, mid + 1, hi);
+            merge(A, lo, mid, hi);
+        }
     }
 }
 

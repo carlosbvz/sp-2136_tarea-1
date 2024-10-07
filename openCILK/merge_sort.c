@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <cilk/cilk.h>
 #include <cilk/cilk_api.h>
+#include <iostream>
+#include <iomanip> // For setting precision
 #include <time.h>
 
 /**
@@ -152,7 +154,8 @@ int main(int argc, char *argv[]) {
     // printf("\n");
 
     // Mostrar el tiempo total de ejecución
-    printf("Tiempo total de ejecución: %f segundos\n", time_taken);
+    std::cout << std::fixed << std::setprecision(9);
+    std::cout << time_taken << std::endl;
 
     // Liberar la memoria
     free(arr);

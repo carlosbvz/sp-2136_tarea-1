@@ -1,8 +1,10 @@
 #include <iostream>
 #include <chrono>
 #include <iomanip>
-
+#include <algorithm> // For std::sort
 #include <random>
+
+#define THRESHOLD 16384 //handle small arrays 
 
 void generateRandomArray(int *arr, int size, int minValue, int maxValue)
 {
@@ -24,12 +26,30 @@ void merge(int *arr, int lo, int mid, int hi)
     int *L = new int[n1];
     int *R = new int[n2];
 
-    for (int i = 0; i < n1; i++)
-        L[i] = arr[lo + i];
-    for (int i = 0; i < n2; i++)
-        R[i] = arr[mid + 1 + i];
+
+    #pragma omp taskgroup
+    {
+        #pragma omp task
+        {
+            #pragma omp parallel for 
+            for (int i = 0; i < n1; i++)
+                L[i] = arr[lo + i];
+        }
+        #pragma omp task
+        {
+            #pragma omp parallel for
+            for (int i = 0; i < n2; i++)
+                R[i] = arr[mid + 1 + i];
+        }
+    }
+
+    //for (int i = 0; i < n1; i++)
+    //    L[i] = arr[lo + i];
+    //for (int i = 0; i < n2; i++)
+    //    R[i] = arr[mid + 1 + i];
 
     int i = 0, j = 0, k = lo;
+
     while (i < n1 && j < n2)
     {
         if (L[i] <= R[j])
@@ -51,30 +71,38 @@ void merge(int *arr, int lo, int mid, int hi)
         i++;
         k++;
     }
-
     while (j < n2)
     {
         arr[k] = R[j];
         j++;
         k++;
     }
-
+    
     delete[] L;
     delete[] R;
 }
 
 void mergesort(int *A, int lo, int hi)
 {
-    if (lo < hi)
-    {
-        int mid = lo + (hi - lo) / 2;
-
-#pragma omp task firstprivate(A, lo, mid)
-        mergesort(A, lo, mid);
-#pragma omp task firstprivate(A, mid, hi)
-        mergesort(A, mid + 1, hi);
-#pragma omp taskwait
-        merge(A, lo, mid, hi);
+   if (lo < hi)
+   {
+        if (hi - lo < THRESHOLD)
+        {
+            std::sort(A + lo, A + hi + 1); // Perform serial sort (std::sort)
+        }
+        else
+        {
+            int mid = lo + (hi - lo) / 2;
+            
+            #pragma omp taskgroup
+            {
+                #pragma omp task shared(A)
+                mergesort(A, lo, mid);
+                #pragma omp task shared(A)
+                mergesort(A, mid + 1, hi);
+            }
+            merge(A, lo, mid, hi);
+        }
     }
 }
 
@@ -100,11 +128,11 @@ int main(int argc, char *argv[])
 
     // Perform the mergesort
     auto start = std::chrono::high_resolution_clock::now();
-#pragma omp parallel
-    {
-#pragma omp single
-        mergesort(arr, 0, N - 1);
-    }
+
+    #pragma omp parallel
+    #pragma omp single
+    mergesort(arr, 0, N - 1);
+
     auto end = std::chrono::high_resolution_clock::now();
 
     // Print the sorted array
