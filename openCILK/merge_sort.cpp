@@ -6,6 +6,10 @@
 #include <iomanip> // For setting precision
 #include <time.h>
 
+#include <algorithm> // For std::sort
+#define THRESHOLD 1 << 14 //handle small arrays 
+
+
 /**
  * merge - Función que combina dos subarreglos ordenados en un solo arreglo ordenado.
  * @param arr: El arreglo original donde se realiza la combinación.
@@ -79,13 +83,20 @@ void merge(int* arr, int lo, int mid, int hi) {
  */
 void parallel_mergesort(int* arr, int lo, int hi) {
     if (lo + 1 < hi) {
-        int mid = (lo + hi) / 2;
+        if (hi - lo < THRESHOLD)
+        {
+            std::sort(arr + lo, arr + hi + 1); // Perform serial sort (std::sort)
+        }
+        else
+        {
+            int mid = (lo + hi) / 2;
 
-        cilk_spawn parallel_mergesort(arr, lo, mid);  // Crear una tarea para la izquierda
-        parallel_mergesort(arr, mid, hi);             // Tarea derecha (continúa sincrónicamente)
-        cilk_sync;                                    // Esperar a que la tarea creada finalice
+            cilk_spawn parallel_mergesort(arr, lo, mid);  // Crear una tarea para la izquierda
+            cilk_spawn parallel_mergesort(arr, mid, hi);             // Tarea derecha (continúa sincrónicamente)
+            cilk_sync;                                    // Esperar a que la tarea creada finalice
 
-        merge(arr, lo, mid, hi);
+            merge(arr, lo, mid, hi);
+        }
     }
 }
 
@@ -116,9 +127,9 @@ int main(int argc, char *argv[]) {
     }
 
     // Establecer el número de hilos a través de la variable de entorno
-    char env_var[50];
-    snprintf(env_var, sizeof(env_var), "CILK_NWORKERS=%d", num_workers);
-    putenv(env_var);  // Establecer la variable de entorno para el número de hilos
+    //char env_var[50];
+    //snprintf(env_var, sizeof(env_var), "CILK_NWORKERS=%d", num_workers);
+    //putenv(env_var);  // Establecer la variable de entorno para el número de hilos
 
     // Crear y llenar el array con números aleatorios
     int* arr = (int*) malloc(n * sizeof(int));
