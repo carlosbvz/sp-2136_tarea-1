@@ -26,22 +26,17 @@ void merge(int *arr, int lo, int mid, int hi)
     int *L = new int[n1];
     int *R = new int[n2];
 
-
-    #pragma omp taskgroup
+    #pragma omp parallel
     {
-        #pragma omp task
-        {
-            #pragma omp parallel for 
-            for (int i = 0; i < n1; i++)
-                L[i] = arr[lo + i];
-        }
-        #pragma omp task
-        {
-            #pragma omp parallel for
-            for (int i = 0; i < n2; i++)
-                R[i] = arr[mid + 1 + i];
-        }
+        #pragma omp for 
+        for (int i = 0; i < n1; i++)
+            L[i] = arr[lo + i];
+
+        #pragma omp for
+        for (int i = 0; i < n2; i++)
+            R[i] = arr[mid + 1 + i];
     }
+        
 
     int i = 0, j = 0, k = lo;
 
@@ -108,10 +103,11 @@ int main(int argc, char *argv[])
         std::cerr << "Usage: " << argv[0] << " <size> <minValue> <maxValue>" << std::endl;
         return 1; // Exit with error code
     }
-
+    
     int N = std::atoi(argv[1]);        // Size of the array
     int minValue = std::atoi(argv[2]); // Minimum value for random numbers
     int maxValue = std::atoi(argv[3]); // Maximum value for random numbers
+
     int *arr = new int[N];
     generateRandomArray(arr, N, minValue, maxValue);
 
@@ -143,6 +139,8 @@ int main(int argc, char *argv[])
     // Output the result with high precision
     std::cout << std::fixed << std::setprecision(9);
     std::cout << duration.count() << std::endl;
+
+    delete[] arr;
 
     return 0;
 }

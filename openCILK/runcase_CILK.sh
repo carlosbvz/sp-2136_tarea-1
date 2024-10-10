@@ -1,5 +1,9 @@
 #!/usr/bin/bash 
 
+module load gcc/7.2.0
+module load mpich/3.2.1-gcc-7.2.0
+module load cmake/3.17.2
+
 for i in 1 2 4 8 16 32;do 
     export CILK_NWORKERS=$i
     echo $i >> log_CILK.out

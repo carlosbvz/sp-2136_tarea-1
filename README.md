@@ -14,3 +14,4 @@
 ## Videos:
 
 ### OpenCILK: https://drive.google.com/file/d/1TnjZTO1l90zV9Cbxuu3rXS_8iuQFVL1s/view?usp=sharing
+### OpenMP: https://drive.google.com/file/d/1E_sfKcFvyc766Po68wnBy0EVeGYQkTIo/view?usp=sharing

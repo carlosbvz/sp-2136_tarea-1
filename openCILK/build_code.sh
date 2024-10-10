@@ -1,8 +1,6 @@
 #!/bin/bash
 
-
-export LD_LIBRARY_PATH=/home/jkhansell/opencilk/lib/clang/14.0.6/lib/x86_64-unknown-linux-gnu:$LD_LIBRARY_PATH
-export PATH=/home/jkhansell/opencilk/include:$PATH
-export PATH=/home/jkhansell/opencilk/bin:$PATH
-
-/home/jkhansell/opencilk/bin/clang++ merge_sort.cpp -fcilkplus -v -o merge_sort
+module load gcc/7.2.0
+module load mpich/3.2.1-gcc-7.2.0
+module load cmake/3.17.2
+g++ -fcilkplus merge_sort.cpp -o merge_sort
