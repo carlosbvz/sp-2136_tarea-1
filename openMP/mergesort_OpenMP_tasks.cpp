@@ -43,11 +43,6 @@ void merge(int *arr, int lo, int mid, int hi)
         }
     }
 
-    //for (int i = 0; i < n1; i++)
-    //    L[i] = arr[lo + i];
-    //for (int i = 0; i < n2; i++)
-    //    R[i] = arr[mid + 1 + i];
-
     int i = 0, j = 0, k = lo;
 
     while (i < n1 && j < n2)
